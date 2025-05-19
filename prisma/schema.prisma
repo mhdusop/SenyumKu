@@ -20,6 +20,13 @@ enum Role {
   PENGELOLA_OBAT
 }
 
+enum Status {
+  MENUNGGU
+  DIPERIKSA
+  SELESAI
+  DIBATALKAN
+}
+
 model User {
   id                 Int                @id @default(autoincrement())
   username           String             @unique
@@ -79,21 +86,25 @@ model Obat {
 }
 
 model Pendaftaran {
-  id       Int      @id @default(autoincrement())
-  pasienId Int
-  tanggal  DateTime
-  pasien   Pasien   @relation(fields: [pasienId], references: [id])
+  id            Int      @id @default(autoincrement())
+  pasienId      Int
+  tanggalDaftar DateTime @default(now())
+  keluhan       String
+  status        Status   @default(MENUNGGU)
+  pasien        Pasien   @relation(fields: [pasienId], references: [id])
+  Antrian       Antrian?
 }
 
 model Pemeriksaan {
-  id       Int      @id @default(autoincrement())
-  tanggal  DateTime
-  pasienId Int
-  dokterId Int
-  keluhan  String
-  diagnosa String
-  pasien   Pasien   @relation(fields: [pasienId], references: [id])
-  dokter   Dokter   @relation(fields: [dokterId], references: [id])
+  id              Int      @id @default(autoincrement())
+  tanggal         DateTime
+  pasienId        Int
+  dokterId        Int
+  keluhan         String
+  diagnosa        String
+  catatanTambahan String?
+  pasien          Pasien   @relation(fields: [pasienId], references: [id])
+  dokter          Dokter   @relation(fields: [dokterId], references: [id])
 }
 
 model RekamMedis {
@@ -132,4 +143,15 @@ model Laporan {
   konten   String
   tanggal  DateTime
   dokter   Dokter   @relation(fields: [dokterId], references: [id])
+}
+
+model Antrian {
+  id            Int       @id @default(autoincrement())
+  pendaftaranId Int       @unique
+  nomorUrut     Int
+  status        Status    @default(MENUNGGU)
+  waktuMasuk    DateTime?
+  waktuSelesai  DateTime?
+
+  pendaftaran Pendaftaran @relation(fields: [pendaftaranId], references: [id])
 }
