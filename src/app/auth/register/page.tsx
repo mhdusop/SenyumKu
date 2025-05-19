@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
+import { dismissToast, showError, showLoading, showSuccess } from "@/lib/toast"
 
 export default function RegisterPage() {
    const [form, setForm] = useState({
@@ -26,18 +27,24 @@ export default function RegisterPage() {
    const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault()
 
+      const loading = showLoading("Mendaftarkan akun...")
+
       const res = await fetch("/api/auth/register", {
          method: "POST",
          headers: { "Content-Type": "application/json" },
          body: JSON.stringify({ ...form, role: "PASIEN" }),
       })
 
+      dismissToast(loading)
+
       if (!res.ok) {
          const data = await res.json()
          setError(data.error || "Terjadi kesalahan")
+         showError(data.error || "Terjadi kesalahan saat mendaftar.")
          return
       }
 
+      showSuccess("Berhasil mendaftar! Silakan login.")
       router.push("/auth/login")
    }
 

@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
+import { dismissToast, showError, showLoading, showSuccess } from "@/lib/toast"
 
 export default function LoginPage() {
    const [form, setForm] = useState({ username: "", password: "" })
@@ -20,15 +21,21 @@ export default function LoginPage() {
 
    const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault()
+      const loading = showLoading("Sedang Login...")
+
       const res = await signIn("credentials", {
          redirect: false,
          username: form.username,
          password: form.password,
       })
 
+      dismissToast(loading)
+
       if (res?.error) {
          setError("Username atau password salah")
+         showError("Gagal Login, Periksa kembali Username dan Password kamu")
       } else {
+         showSuccess("Berhasil Login!")
          router.push("/dashboard")
       }
    }
@@ -52,7 +59,7 @@ export default function LoginPage() {
 
                   {error && <p className="text-sm text-red-500">{error}</p>}
 
-                  <Button type="submit" className="w-full mt-4">
+                  <Button type="submit" className="w-full mt-4 cursor-pointer">
                      Masuk
                   </Button>
                </form>
