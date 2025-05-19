@@ -1,0 +1,135 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  PASIEN
+  DOKTER
+  ADMINISTRASI
+  PENGELOLA_OBAT
+}
+
+model User {
+  id                 Int                @id @default(autoincrement())
+  username           String             @unique
+  password           String
+  role               Role
+  pasien             Pasien?
+  dokter             Dokter?
+  staffAdministrasi  StafAdministrasi?
+  staffPengelolaObat StafPengelolaObat?
+}
+
+model Pasien {
+  id          Int           @id @default(autoincrement())
+  nama        String
+  alamat      String?
+  noTelp      String?
+  userId      Int           @unique
+  user        User          @relation(fields: [userId], references: [id])
+  pendaftaran Pendaftaran[]
+  rekamMedis  RekamMedis[]
+  pembayaran  Pembayaran[]
+  Pemeriksaan Pemeriksaan[]
+}
+
+model StafAdministrasi {
+  id     Int    @id @default(autoincrement())
+  nama   String
+  userId Int    @unique
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model Dokter {
+  id           Int           @id @default(autoincrement())
+  nama         String
+  spesialisasi String?
+  userId       Int           @unique
+  user         User          @relation(fields: [userId], references: [id])
+  resep        Resep[]
+  rekamMedis   RekamMedis[]
+  laporan      Laporan[]
+  Pemeriksaan  Pemeriksaan[]
+}
+
+model StafPengelolaObat {
+  id     Int    @id @default(autoincrement())
+  nama   String
+  userId Int    @unique
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model Obat {
+  id     Int     @id @default(autoincrement())
+  nama   String
+  stok   Int
+  satuan String
+  resep  Resep[]
+}
+
+model Pendaftaran {
+  id       Int      @id @default(autoincrement())
+  pasienId Int
+  tanggal  DateTime
+  pasien   Pasien   @relation(fields: [pasienId], references: [id])
+}
+
+model Pemeriksaan {
+  id       Int      @id @default(autoincrement())
+  tanggal  DateTime
+  pasienId Int
+  dokterId Int
+  keluhan  String
+  diagnosa String
+  pasien   Pasien   @relation(fields: [pasienId], references: [id])
+  dokter   Dokter   @relation(fields: [dokterId], references: [id])
+}
+
+model RekamMedis {
+  id       Int      @id @default(autoincrement())
+  pasienId Int
+  dokterId Int
+  isi      String
+  tanggal  DateTime
+  pasien   Pasien   @relation(fields: [pasienId], references: [id])
+  dokter   Dokter   @relation(fields: [dokterId], references: [id])
+}
+
+model Pembayaran {
+  id       Int      @id @default(autoincrement())
+  pasienId Int
+  jumlah   Float
+  tanggal  DateTime
+  metode   String
+  pasien   Pasien   @relation(fields: [pasienId], references: [id])
+}
+
+model Resep {
+  id       Int    @id @default(autoincrement())
+  dokterId Int
+  obatId   Int
+  jumlah   Int
+  aturan   String
+  dokter   Dokter @relation(fields: [dokterId], references: [id])
+  obat     Obat   @relation(fields: [obatId], references: [id])
+}
+
+model Laporan {
+  id       Int      @id @default(autoincrement())
+  dokterId Int
+  jenis    String
+  konten   String
+  tanggal  DateTime
+  dokter   Dokter   @relation(fields: [dokterId], references: [id])
+}
