@@ -44,37 +44,37 @@ const data = {
       items: [
         {
           title: "Data Pendaftaran",
-          url: "#",
+          url: "/dashboard/master-data/pendaftaran",
           icon: ContactRound
         },
         {
           title: "Data Pemeriksaan",
-          url: "#",
+          url: "/dashboard/master-data/pemeriksaan",
           icon: ClipboardCheck
         },
         {
           title: "Data Pasien",
-          url: "#",
+          url: "/dashboard/master-data/pasien",
           icon: UsersRound
         },
         {
           title: "Data Dokter",
-          url: "#",
+          url: "/dashboard/master-data/dokter",
           icon: ShieldUser
         },
         {
           title: "Data Pembayaran",
-          url: "#",
+          url: "/dashboard/master-data/pembayaran",
           icon: Wallet
         },
         {
           title: "Data Rekam Medis",
-          url: "#",
+          url: "/dashboard/master-data/rekam-medis",
           icon: ClipboardPlus
         },
         {
           title: "Data Obat",
-          url: "#",
+          url: "/dashboard/master-data/obat",
           icon: Pill
         },
       ],
@@ -86,17 +86,17 @@ const data = {
       items: [
         {
           title: "Laporan Resep",
-          url: "#",
+          url: "/dashboard/data-laporan/resep",
           icon: Newspaper
         },
         {
           title: "Laporan Pembayaran",
-          url: "#",
+          url: "/dashboard/data-laporan/pembayaran",
           icon: ReceiptText
         },
         {
           title: "Laporan Rekam Medis",
-          url: "#",
+          url: "/dashboard/data-laporan/rekam-medis",
           icon: FilePlus
         },
       ],
@@ -108,7 +108,7 @@ const data = {
       items: [
         {
           title: "Resep Obat",
-          url: "#",
+          url: "/dashboard/kelola-obat/resep-obat",
           icon: Tablets
         },
       ],

@@ -1,7 +1,12 @@
+"use client"
+
+import DashboardLayout from "./dashboard/layout";
+import Dashboard from "./dashboard/page";
+
 export default function Home() {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+    <DashboardLayout>
+      <Dashboard />
+    </DashboardLayout>
   );
 }
