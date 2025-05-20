@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
-import { dismissToast, showError, showLoading, showSuccess } from "@/lib/toast"
+import { dismissToast, showError, showLoading, showSuccess } from "@/utils/toast"
 
 export default function LoginPage() {
    const [form, setForm] = useState({ username: "", password: "" })

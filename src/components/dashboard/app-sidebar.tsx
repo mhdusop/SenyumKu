@@ -15,7 +15,8 @@ import {
   Newspaper,
   ReceiptText,
   FilePlus,
-  Tablets
+  Tablets,
+  LayoutDashboard
 } from "lucide-react"
 
 import { NavMain } from "@/components/dashboard/nav-main"
@@ -36,6 +37,12 @@ const data = {
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
+    {
+      title: "Dashboard",
+      url: "/dashboard",
+      icon: LayoutDashboard,
+      isActive: true,
+    },
     {
       title: "Master Data",
       url: "#",
