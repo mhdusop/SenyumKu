@@ -48,7 +48,7 @@ model Pasien {
   pendaftaran Pendaftaran[]
   rekamMedis  RekamMedis[]
   pembayaran  Pembayaran[]
-  Pemeriksaan Pemeriksaan[]
+  pemeriksaan Pemeriksaan[]
 }
 
 model StafAdministrasi {
@@ -67,7 +67,7 @@ model Dokter {
   resep        Resep[]
   rekamMedis   RekamMedis[]
   laporan      Laporan[]
-  Pemeriksaan  Pemeriksaan[]
+  pemeriksaan  Pemeriksaan[]
 }
 
 model StafPengelolaObat {

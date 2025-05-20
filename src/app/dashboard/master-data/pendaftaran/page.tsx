@@ -12,6 +12,7 @@ import {
 import { getAllPendaftaran } from '@/services/pendaftaran-service'
 import { Pendaftaran } from '@/interfaces/pendaftaran'
 import { dateFormat } from '@/utils/date-format'
+import Loader from '@/components/common/Loader'
 
 export default function PendaftaranPage() {
    const [pendaftaranList, setPendaftaranList] = useState<Pendaftaran[]>([])
@@ -32,6 +33,10 @@ export default function PendaftaranPage() {
       loadData()
    }, [])
 
+   if (loading) {
+      return <Loader />
+   }
+
    return (
       <div>
          <Table>
@@ -43,15 +48,11 @@ export default function PendaftaranPage() {
                   <TableHead>Keluhan</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>No Antrian</TableHead>
-                  <TableHead className="text-right">Aksi</TableHead>
+                  <TableHead className="text-center">Aksi</TableHead>
                </TableRow>
             </TableHeader>
             <TableBody>
-               {loading ? (
-                  <TableRow>
-                     <TableCell colSpan={7} className='text-center'>Memuat data...</TableCell>
-                  </TableRow>
-               ) : pendaftaranList.length === 0 ? (
+               {pendaftaranList.length === 0 ? (
                   <TableRow>
                      <TableCell colSpan={7} className='text-center'>Tidak ada data</TableCell>
                   </TableRow>
@@ -64,7 +65,7 @@ export default function PendaftaranPage() {
                         <TableCell>{item.keluhan}</TableCell>
                         <TableCell>{item.status}</TableCell>
                         <TableCell>{item.antrian?.nomorUrut ?? '-'}</TableCell>
-                        <TableCell className="text-right">-</TableCell>
+                        <TableCell className="text-center">-</TableCell>
                      </TableRow>
                   ))
                )}
