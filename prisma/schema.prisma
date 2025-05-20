@@ -92,7 +92,7 @@ model Pendaftaran {
   keluhan       String
   status        Status   @default(MENUNGGU)
   pasien        Pasien   @relation(fields: [pasienId], references: [id])
-  Antrian       Antrian?
+  antrian       Antrian?
 }
 
 model Pemeriksaan {
