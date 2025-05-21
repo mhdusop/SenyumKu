@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { dismissToast, showError, showLoading, showSuccess } from "@/utils/toast"
+import Link from "next/link"
 
 export default function LoginView() {
    const [form, setForm] = useState({ username: "", password: "" })
@@ -79,9 +80,12 @@ export default function LoginView() {
 
                   {error && <p className="text-sm text-red-500">{error}</p>}
 
-                  <Button type="submit" className="w-full mt-4 cursor-pointer">
-                     Masuk
-                  </Button>
+                  <div className="space-y-2">
+                     <small>Belum punya akun? silahkan daftar <Link className="text-sm text-blue-500 hover:underline" href="/auth/register">disini</Link></small>
+                     <Button type="submit" className="w-full mt-4 cursor-pointer">
+                        Masuk
+                     </Button>
+                  </div>
                </form>
             </CardContent>
          </Card>
