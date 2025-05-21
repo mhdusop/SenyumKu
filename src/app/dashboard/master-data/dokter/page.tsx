@@ -1,5 +1,5 @@
-"use client"
+import DokterView from "@/views/dashboard/master-data/dokter/DokterView";
 
 export default function DokterPage() {
-   return <h1>Dokter Page</h1>
+   return <DokterView />
 }

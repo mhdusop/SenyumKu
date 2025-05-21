@@ -1,5 +1,5 @@
-"use client"
+import PasienView from "@/views/dashboard/master-data/pasien/PasienView";
 
 export default function PasienPage() {
-   return <h1>Pasien Page</h1>
+   return <PasienView />
 }

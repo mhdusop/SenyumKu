@@ -48,7 +48,7 @@ model Pasien {
   pendaftaran Pendaftaran[]
   rekamMedis  RekamMedis[]
   pembayaran  Pembayaran[]
-  Pemeriksaan Pemeriksaan[]
+  pemeriksaan Pemeriksaan[]
 }
 
 model StafAdministrasi {
@@ -62,12 +62,13 @@ model Dokter {
   id           Int           @id @default(autoincrement())
   nama         String
   spesialisasi String?
+  noTelp       String
   userId       Int           @unique
   user         User          @relation(fields: [userId], references: [id])
   resep        Resep[]
   rekamMedis   RekamMedis[]
   laporan      Laporan[]
-  Pemeriksaan  Pemeriksaan[]
+  pemeriksaan  Pemeriksaan[]
 }
 
 model StafPengelolaObat {
