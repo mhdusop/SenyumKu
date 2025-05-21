@@ -30,7 +30,7 @@ export async function middleware(request: NextRequest) {
    const rolePaths: Record<string, string> = {
       PASIEN: "/dashboard/pasien",
       DOKTER: "/dashboard/dokter",
-      PENGELOLA_OBAT: "/dashboard/pengelola-obat",
+      PENGELOLA_OBAT: "/dashboard/farmasi",
       ADMINISTRASI: "/dashboard/administrasi",
    };
 

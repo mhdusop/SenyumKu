@@ -34,7 +34,7 @@ import {
 const dashboardPathMap: Record<string, string> = {
   PASIEN: "/dashboard/pasien",
   DOKTER: "/dashboard/dokter",
-  PENGELOLA_OBAT: "/dashboard/pengelola-obat",
+  PENGELOLA_OBAT: "/dashboard/farmasi",
   ADMINISTRASI: "/dashboard/administrasi",
 };
 
@@ -55,7 +55,6 @@ const fullNavMain = [
       { title: "Data Dokter", url: "/dashboard/administrasi/master/dokter", icon: ShieldUser },
       { title: "Data Pembayaran", url: "/dashboard/administrasi/master/pembayaran", icon: Wallet },
       { title: "Data Rekam Medis", url: "/dashboard/administrasi/master/rekam-medis", icon: ClipboardPlus },
-      { title: "Data Obat", url: "/dashboard/administrasi/master/obat", icon: Pill },
     ],
   },
   {
@@ -73,7 +72,8 @@ const fullNavMain = [
     url: "#",
     icon: PillBottle,
     items: [
-      { title: "Resep Obat", url: "/dashboard/pengelola-obat/kelola-obat", icon: Tablets },
+      { title: "Resep Obat", url: "/dashboard/farmasi/resep-obat", icon: Tablets },
+      { title: "Data Obat", url: "/dashboard/farmasi/data-obat", icon: Pill },
     ],
   },
 ];
@@ -107,16 +107,10 @@ const getNavMainByRole = (role?: string) => {
       return [
         dashboardItem,
         {
-          ...fullNavMain[1], // Master Data
-          items: fullNavMain[1].items?.filter(
-            item => item.url === "/dashboard/administrasi/master/obat"
-          ),
-        },
-        {
-          ...fullNavMain[3], // Kelola Obat
+          ...fullNavMain[3], // Farmasi
           items: fullNavMain[3].items?.map(item => ({
             ...item,
-            url: item.url.replace("/dashboard/pengelola-obat", dashboardUrl),
+            url: item.url.replace("/dashboard/farmasi", dashboardUrl),
           })),
         },
       ];

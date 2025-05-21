@@ -1,5 +1,5 @@
 "use client"
 
-export default function ResepPObatPage() {
+export default function ResepObatView() {
    return <h1>Resep Obat Page</h1>
 }
