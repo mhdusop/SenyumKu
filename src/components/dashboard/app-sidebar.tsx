@@ -146,7 +146,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
 
   const user = {
     name: session?.user?.username ?? "Guest",
-    email: "email@gmailasd.",
+    role: session?.user?.role ?? "-",
     avatar: "/avatars/default.jpg",
   }
 
