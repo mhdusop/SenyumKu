@@ -1,5 +1,5 @@
-"use client"
+import PembayaranView from "@/views/dashboard/master-data/pembayaran/PembayaranView"
 
 export default function PembayaranPage() {
-   return <h1>Pembayaran Page</h1>
+   return <PembayaranView />
 }

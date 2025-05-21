@@ -1,5 +1,5 @@
-"use client"
+import RekamMedisView from "@/views/dashboard/master-data/rekam-medis/RekamMedisView"
 
 export default function RekamMedisPage() {
-   return <h1>Rekam Medis Page</h1>
+   return <RekamMedisView />
 }
