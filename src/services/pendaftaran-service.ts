@@ -4,8 +4,6 @@ export const getAllPendaftaran = async () => {
          cache: "no-store",
       });
 
-      console.log(res);
-
       if (!res.ok) {
          throw new Error(
             `Gagal fetch pendaftaran: ${res.status} ${res.statusText}`

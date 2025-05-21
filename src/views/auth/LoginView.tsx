@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { signIn } from "next-auth/react"
+import { getSession, signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -36,7 +36,27 @@ export default function LoginView() {
          showError("Gagal Login, Periksa kembali Username dan Password kamu")
       } else {
          showSuccess("Berhasil Login!")
-         router.push("/dashboard")
+
+         const session = await getSession()
+         const role = session?.user?.role
+
+         switch (role) {
+            case "PASIEN":
+               router.push("/dashboard")
+               break
+            case "DOKTER":
+               router.push("/dashboard/data-laporan/resep")
+               break
+            case "PENGELOLA_OBAT":
+               router.push("/dashboard/kelola-obat/resep-obat")
+               break
+            case "ADMINISTRASI":
+               router.push("/dashboard/master-data/pendaftaran")
+               break
+            default:
+               router.push("/dashboard")
+               break
+         }
       }
    }
 
