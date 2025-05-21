@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useSession } from "next-auth/react"
 import {
   PillBottle,
   Database,
@@ -30,100 +31,131 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: LayoutDashboard,
-      isActive: true,
-    },
-    {
-      title: "Master Data",
-      url: "#",
-      icon: Database,
-      isActive: true,
-      items: [
-        {
-          title: "Data Pendaftaran",
-          url: "/dashboard/master-data/pendaftaran",
-          icon: ContactRound
-        },
-        {
-          title: "Data Pemeriksaan",
-          url: "/dashboard/master-data/pemeriksaan",
-          icon: ClipboardCheck
-        },
-        {
-          title: "Data Pasien",
-          url: "/dashboard/master-data/pasien",
-          icon: UsersRound
-        },
-        {
-          title: "Data Dokter",
-          url: "/dashboard/master-data/dokter",
-          icon: ShieldUser
-        },
-        {
-          title: "Data Pembayaran",
-          url: "/dashboard/master-data/pembayaran",
-          icon: Wallet
-        },
-        {
-          title: "Data Rekam Medis",
-          url: "/dashboard/master-data/rekam-medis",
-          icon: ClipboardPlus
-        },
-        {
-          title: "Data Obat",
-          url: "/dashboard/master-data/obat",
-          icon: Pill
-        },
-      ],
-    },
-    {
-      title: "Data Laporan",
-      url: "#",
-      icon: ClipboardMinus,
-      items: [
-        {
-          title: "Laporan Resep",
-          url: "/dashboard/data-laporan/resep",
-          icon: Newspaper
-        },
-        {
-          title: "Laporan Pembayaran",
-          url: "/dashboard/data-laporan/pembayaran",
-          icon: ReceiptText
-        },
-        {
-          title: "Laporan Rekam Medis",
-          url: "/dashboard/data-laporan/rekam-medis",
-          icon: FilePlus
-        },
-      ],
-    },
-    {
-      title: "Kelola Obat",
-      url: "#",
-      icon: PillBottle,
-      items: [
-        {
-          title: "Resep Obat",
-          url: "/dashboard/kelola-obat/resep-obat",
-          icon: Tablets
-        },
-      ],
-    },
-  ],
-}
+const dashboardPathMap: Record<string, string> = {
+  PASIEN: "/dashboard/pasien",
+  DOKTER: "/dashboard/dokter",
+  PENGELOLA_OBAT: "/dashboard/pengelola-obat",
+  ADMINISTRASI: "/dashboard/administrasi",
+};
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+const fullNavMain = [
+  {
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: LayoutDashboard,
+  },
+  {
+    title: "Master Data",
+    url: "#",
+    icon: Database,
+    items: [
+      { title: "Data Pendaftaran", url: "/dashboard/administrasi/master/pendaftaran", icon: ContactRound },
+      { title: "Data Pemeriksaan", url: "/dashboard/administrasi/master/pemeriksaan", icon: ClipboardCheck },
+      { title: "Data Pasien", url: "/dashboard/administrasi/master/pasien", icon: UsersRound },
+      { title: "Data Dokter", url: "/dashboard/administrasi/master/dokter", icon: ShieldUser },
+      { title: "Data Pembayaran", url: "/dashboard/administrasi/master/pembayaran", icon: Wallet },
+      { title: "Data Rekam Medis", url: "/dashboard/administrasi/master/rekam-medis", icon: ClipboardPlus },
+      { title: "Data Obat", url: "/dashboard/administrasi/master/obat", icon: Pill },
+    ],
+  },
+  {
+    title: "Data Laporan",
+    url: "#",
+    icon: ClipboardMinus,
+    items: [
+      { title: "Laporan Resep", url: "/dashboard/dokter/data-laporan/resep", icon: Newspaper },
+      { title: "Laporan Pembayaran", url: "/dashboard/dokter/data-laporan/pembayaran", icon: ReceiptText },
+      { title: "Laporan Rekam Medis", url: "/dashboard/dokter/data-laporan/rekam-medis", icon: FilePlus },
+    ],
+  },
+  {
+    title: "Kelola Obat",
+    url: "#",
+    icon: PillBottle,
+    items: [
+      { title: "Resep Obat", url: "/dashboard/pengelola-obat/kelola-obat", icon: Tablets },
+    ],
+  },
+];
+
+const getNavMainByRole = (role?: string) => {
+  const dashboardUrl = dashboardPathMap[role ?? ""] ?? "/dashboard";
+
+  const dashboardItem = {
+    title: "Dashboard",
+    url: dashboardUrl,
+    icon: LayoutDashboard,
+  };
+
+  switch (role) {
+    case "PASIEN":
+      return [dashboardItem];
+
+    case "DOKTER":
+      return [
+        dashboardItem,
+        {
+          ...fullNavMain[2], // Data Laporan
+          items: fullNavMain[2].items?.map(item => ({
+            ...item,
+            url: item.url.replace("/dashboard/dokter", dashboardUrl),
+          })) ?? [],
+        },
+      ];
+
+    case "PENGELOLA_OBAT":
+      return [
+        dashboardItem,
+        {
+          ...fullNavMain[1], // Master Data
+          items: fullNavMain[1].items?.filter(
+            item => item.url === "/dashboard/administrasi/master/obat"
+          ),
+        },
+        {
+          ...fullNavMain[3], // Kelola Obat
+          items: fullNavMain[3].items?.map(item => ({
+            ...item,
+            url: item.url.replace("/dashboard/pengelola-obat", dashboardUrl),
+          })),
+        },
+      ];
+
+    case "ADMINISTRASI":
+      return [
+        dashboardItem,
+        {
+          ...fullNavMain[1], // Master Data
+          items: fullNavMain[1].items?.filter(item =>
+            [
+              "pendaftaran",
+              "pemeriksaan",
+              "pasien",
+              "dokter",
+              "pembayaran",
+              "rekam-medis",
+            ].some((segment) => item.url.endsWith(segment))
+          ),
+        },
+      ];
+
+    default:
+      return [dashboardItem];
+  }
+};
+
+export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
+  const { data: session } = useSession()
+  const role = session?.user?.role as string | undefined
+
+  const navMain = getNavMainByRole(role);
+
+  const user = {
+    name: session?.user?.username ?? "Guest",
+    email: "email@gmailasd.",
+    avatar: "/avatars/default.jpg",
+  }
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -136,15 +168,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </div>
           <div className="grid flex-1 text-left text-sm leading-tight">
             <span className="truncate font-medium">SenyumKu</span>
-            <span className="truncate text-xs">Klinik Dokter Gigi</span>
+            <span className="truncate text-[10px]">Klinik Dokter Gigi</span>
           </div>
         </SidebarMenuButton>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
