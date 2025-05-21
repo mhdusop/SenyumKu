@@ -19,7 +19,7 @@ export default function PemeriksaanView() {
    const [loading, setLoading] = useState(true);
 
    useEffect(() => {
-      const fetchPasien = async () => {
+      const fetchPemeriksaan = async () => {
          try {
             const res = await getAllPemeriksaan();
             setDataPemeriksaan(res.data);
@@ -30,7 +30,7 @@ export default function PemeriksaanView() {
          }
       };
 
-      fetchPasien();
+      fetchPemeriksaan();
    }, []);
 
    if (loading) {

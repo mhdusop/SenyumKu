@@ -62,6 +62,7 @@ model Dokter {
   id           Int           @id @default(autoincrement())
   nama         String
   spesialisasi String?
+  noTelp       String
   userId       Int           @unique
   user         User          @relation(fields: [userId], references: [id])
   resep        Resep[]
