@@ -1,5 +1,5 @@
-"use client"
+import PemeriksaanView from "@/views/dashboard/master-data/pemeriksaan/PemeriksaanView";
 
 export default function PemeriksaanPage() {
-   return <h1>Pemeriksaan</h1>
+   return <PemeriksaanView />
 }

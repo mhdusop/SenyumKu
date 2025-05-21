@@ -1,4 +1,4 @@
-import PasienView from "@/views/dashboard/pasien/PasienView";
+import PasienView from "@/views/dashboard/master-data/pasien/PasienView";
 
 export default function PasienPage() {
    return <PasienView />
