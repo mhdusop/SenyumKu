@@ -19,7 +19,7 @@ export default function DashboardLayout({ children }: DashboardProps) {
                   <SidebarTrigger className="-ml-1 cursor-pointer" />
                </div>
             </header>
-            <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
+            <main className="flex flex-1 flex-col gap-4 p-4 bg-gray-100">
                <div>{children}</div>
             </main>
          </SidebarInset>
