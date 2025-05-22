@@ -4,27 +4,10 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function main() {
-   // Clear existing data (optional)
-   await prisma.antrian.deleteMany();
-   await prisma.resep.deleteMany();
-   await prisma.pembayaran.deleteMany();
-   await prisma.rekamMedis.deleteMany();
-   await prisma.pemeriksaan.deleteMany();
-   await prisma.pendaftaran.deleteMany();
-   await prisma.obat.deleteMany();
-   await prisma.laporan.deleteMany();
-   await prisma.pasien.deleteMany();
-   await prisma.dokter.deleteMany();
-   await prisma.stafAdministrasi.deleteMany();
-   await prisma.stafPengelolaObat.deleteMany();
-   await prisma.user.deleteMany();
-
    const saltRounds = 10;
-
-   // Hash passwords
    const hashedPassword = await bcrypt.hash("password", saltRounds);
 
-   // Create users with related data
+   // Create users
    await prisma.user.create({
       data: {
          username: "admin",
@@ -38,9 +21,9 @@ async function main() {
       },
    });
 
-   await prisma.user.create({
+   const dokterUser = await prisma.user.create({
       data: {
-         username: "dokter1",
+         username: "dokter",
          password: hashedPassword,
          role: "DOKTER",
          dokter: {
@@ -51,11 +34,12 @@ async function main() {
             },
          },
       },
+      include: { dokter: true },
    });
 
-   await prisma.user.create({
+   const pasienUser = await prisma.user.create({
       data: {
-         username: "pasien1",
+         username: "pasien",
          password: hashedPassword,
          role: "PASIEN",
          pasien: {
@@ -66,11 +50,12 @@ async function main() {
             },
          },
       },
+      include: { pasien: true },
    });
 
    await prisma.user.create({
       data: {
-         username: "obat1",
+         username: "farmasi",
          password: hashedPassword,
          role: "PENGELOLA_OBAT",
          staffPengelolaObat: {
@@ -81,11 +66,10 @@ async function main() {
       },
    });
 
-   // Fetch created dokter and pasien for foreign keys usage
-   const dokter = await prisma.dokter.findFirstOrThrow();
-   const pasien = await prisma.pasien.findFirstOrThrow();
+   const dokter = dokterUser.dokter!;
+   const pasien = pasienUser.pasien!;
 
-   // Create obat
+   // Create Obat
    const paracetamol = await prisma.obat.create({
       data: {
          nama: "Paracetamol",
@@ -94,7 +78,7 @@ async function main() {
       },
    });
 
-   // Create pendaftaran
+   // Create Pendaftaran
    const pendaftaran = await prisma.pendaftaran.create({
       data: {
          pasienId: pasien.id,
@@ -102,8 +86,18 @@ async function main() {
       },
    });
 
-   // Create pemeriksaan
-   await prisma.pemeriksaan.create({
+   // Create Antrian
+   await prisma.antrian.create({
+      data: {
+         pendaftaranId: pendaftaran.id,
+         nomorUrut: 1,
+         status: "MENUNGGU",
+         waktuMasuk: new Date(),
+      },
+   });
+
+   // Create Pemeriksaan
+   const pemeriksaan = await prisma.pemeriksaan.create({
       data: {
          tanggal: new Date(),
          pasienId: pasien.id,
@@ -114,17 +108,29 @@ async function main() {
       },
    });
 
-   // Create rekam medis
-   await prisma.rekamMedis.create({
+   // Create Rekam Medis
+   const rekamMedis = await prisma.rekamMedis.create({
       data: {
          pasienId: pasien.id,
          dokterId: dokter.id,
+         pemeriksaanId: pemeriksaan.id,
          isi: "Pasien mengalami demam dan pusing selama 3 hari.",
          tanggal: new Date(),
       },
    });
 
-   // Create pembayaran
+   // Create Resep terkait (optional relasi ke rekamMedis)
+   await prisma.resep.create({
+      data: {
+         dokterId: dokter.id,
+         obatId: paracetamol.id,
+         jumlah: 10,
+         aturan: "3x1 sesudah makan",
+         rekamMedisId: rekamMedis.id, // hanya jika kamu pakai relasi ini di model!
+      },
+   });
+
+   // Create Pembayaran
    await prisma.pembayaran.create({
       data: {
          pasienId: pasien.id,
@@ -134,17 +140,7 @@ async function main() {
       },
    });
 
-   // Create resep
-   await prisma.resep.create({
-      data: {
-         dokterId: dokter.id,
-         obatId: paracetamol.id,
-         jumlah: 10,
-         aturan: "3x1 sesudah makan",
-      },
-   });
-
-   // Create laporan
+   // Create Laporan Dokter
    await prisma.laporan.create({
       data: {
          dokterId: dokter.id,
@@ -154,17 +150,7 @@ async function main() {
       },
    });
 
-   // Create antrian
-   await prisma.antrian.create({
-      data: {
-         pendaftaranId: pendaftaran.id,
-         nomorUrut: 1,
-         status: "MENUNGGU",
-         waktuMasuk: new Date(),
-      },
-   });
-
-   console.log("Seeding selesai.");
+   console.log("✅ Seeding selesai.");
 }
 
 main()

@@ -11,7 +11,7 @@ export default function HelloComponent({ name, logo }: Props) {
          <div className="space-y-1">
             <h1 className="font-semibold text-2xl">Halo, {name} 👋</h1>
             <p className="text-sm/6 text-gray-700">
-               Selamat datang di dashboard pribadi Anda. Di sini Anda Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, beatae?
+               Selamat datang di dashboard pribadi Anda. Di sini Anda dapat melihat riwayat pendaftaran, memantau janji temu, mengakses rekam medis, serta melihat status pembayaran layanan kesehatan Anda.
             </p>
          </div>
          <div className="hidden md:block">
