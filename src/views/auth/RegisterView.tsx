@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { dismissToast, showError, showLoading, showSuccess } from "@/utils/toast"
+import Link from "next/link"
 
 export default function RegisterView() {
    const [form, setForm] = useState({
@@ -79,9 +80,13 @@ export default function RegisterView() {
 
                   {error && <p className="text-sm text-red-500">{error}</p>}
 
-                  <Button type="submit" className="w-full mt-4 cursor-pointer">
-                     Daftar
-                  </Button>
+                  <div className="space-y-2">
+                     <small>Sudah punya akun? silahkan masuk <Link className="text-sm text-blue-500 hover:underline" href="/auth/login">disini</Link></small>
+
+                     <Button type="submit" className="w-full mt-4 cursor-pointer">
+                        Daftar
+                     </Button>
+                  </div>
                </form>
             </CardContent>
          </Card>
