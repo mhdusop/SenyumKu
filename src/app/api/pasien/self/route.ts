@@ -19,10 +19,27 @@ export async function GET() {
             orderBy: {
                tanggalDaftar: "desc",
             },
+            include: {
+               antrian: true,
+            },
          },
          pembayaran: {
             orderBy: {
                tanggal: "desc",
+            },
+         },
+         pemeriksaan: {
+            include: {
+               dokter: true,
+            },
+         },
+         rekamMedis: {
+            include: {
+               resep: {
+                  include: {
+                     obat: true,
+                  },
+               },
             },
          },
       },

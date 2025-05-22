@@ -118,7 +118,7 @@ model RekamMedis {
   tanggal       DateTime
   pasien        Pasien      @relation(fields: [pasienId], references: [id])
   dokter        Dokter      @relation(fields: [dokterId], references: [id])
-  resep         Resep[]
+  resep         Resep[]     @relation("RekamMedisToResep")
   pemeriksaan   Pemeriksaan @relation("RekamMedisPemeriksaan", fields: [pemeriksaanId], references: [id])
 }
 
@@ -140,7 +140,7 @@ model Resep {
   rekamMedisId Int?
   dokter       Dokter      @relation(fields: [dokterId], references: [id])
   obat         Obat        @relation(fields: [obatId], references: [id])
-  RekamMedis   RekamMedis? @relation(fields: [rekamMedisId], references: [id])
+  rekamMedis   RekamMedis? @relation("RekamMedisToResep", fields: [rekamMedisId], references: [id])
 }
 
 model Laporan {

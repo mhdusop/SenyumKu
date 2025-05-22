@@ -1,5 +1,6 @@
 "use client"
 
+import { StatusBadge } from "@/components/common/StatusBadge";
 import {
    Table,
    TableBody,
@@ -9,8 +10,8 @@ import {
    TableRow,
 } from "@/components/ui/table"
 import { Pendaftaran } from "@/interfaces/pendaftaran";
+import { StatusType } from "@/interfaces/status";
 import { dateFormat } from "@/utils/date-format"
-
 
 interface TableProps {
    pendaftaran: Pendaftaran[];
@@ -27,6 +28,7 @@ export function TablePendaftaranPasien({ pendaftaran, isLoading }: TableProps) {
                   <TableHead className="w-[40px]">No</TableHead>
                   <TableHead>Tanggal</TableHead>
                   <TableHead>Keluhan</TableHead>
+                  <TableHead>Nomor Antrian</TableHead>
                   <TableHead>Status</TableHead>
                </TableRow>
             </TableHeader>
@@ -45,10 +47,14 @@ export function TablePendaftaranPasien({ pendaftaran, isLoading }: TableProps) {
                         <TableCell>{index + 1}</TableCell>
                         <TableCell>{dateFormat(item.tanggalDaftar)}</TableCell>
                         <TableCell>{item.keluhan}</TableCell>
-                        <TableCell>{item.status}</TableCell>
+                        <TableCell>A-{item.antrian?.nomorUrut}</TableCell>
+                        <TableCell>
+                           <StatusBadge status={item.status as StatusType} />
+                        </TableCell>
                      </TableRow>
                   ))
                )}
+
             </TableBody>
          </Table>
       </div>
