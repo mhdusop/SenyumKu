@@ -17,7 +17,8 @@ import {
   ReceiptText,
   FilePlus,
   Tablets,
-  LayoutDashboard
+  LayoutDashboard,
+  ClipboardPen
 } from "lucide-react"
 
 import { NavMain } from "@/components/dashboard/nav-main"
@@ -87,9 +88,15 @@ const getNavMainByRole = (role?: string) => {
     icon: LayoutDashboard,
   };
 
+  const formPendaftaran = {
+    title: "Form Pendaftaran",
+    url: `${dashboardUrl}/daftar`,
+    icon: ClipboardPen
+  }
+
   switch (role) {
     case "PASIEN":
-      return [dashboardItem];
+      return [dashboardItem, formPendaftaran];
 
     case "DOKTER":
       return [

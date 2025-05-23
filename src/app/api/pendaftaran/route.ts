@@ -1,4 +1,6 @@
+import { authOptions } from "@/lib/auth/auth-options";
 import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
 // Get all Pendaftaran
@@ -10,8 +12,6 @@ export async function GET() {
             antrian: true,
          },
       });
-
-      console.log(data);
 
       return NextResponse.json(data);
    } catch (error) {
@@ -26,9 +26,19 @@ export async function GET() {
 // Create Pendaftaran
 export async function POST(request: Request) {
    try {
-      const { pasienId, keluhan } = await request.json();
+      const session = await getServerSession(authOptions);
 
-      // Buat pendaftaran baru
+      if (!session?.user?.pasienId) {
+         return NextResponse.json(
+            { message: "Pasien belum terdaftar" },
+            { status: 401 }
+         );
+      }
+
+      const pasienId = parseInt(session.user.pasienId, 10);
+
+      const { keluhan } = await request.json();
+
       const pendaftaran = await prisma.pendaftaran.create({
          data: {
             pasienId,
@@ -36,14 +46,12 @@ export async function POST(request: Request) {
          },
       });
 
-      // Cari nomor urut antrian terakhir
       const lastAntrian = await prisma.antrian.findFirst({
          orderBy: { nomorUrut: "desc" },
       });
 
       const nextNomorUrut = (lastAntrian?.nomorUrut ?? 0) + 1;
 
-      // Buat data antrian baru yang kait ke pendaftaran
       const antrian = await prisma.antrian.create({
          data: {
             pendaftaranId: pendaftaran.id,
@@ -51,7 +59,6 @@ export async function POST(request: Request) {
          },
       });
 
-      // Return gabungan data (optional)
       return NextResponse.json({
          pendaftaran,
          antrian,
