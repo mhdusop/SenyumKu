@@ -7,6 +7,7 @@ import { getPasienSelf } from "@/services/self-service";
 import { Pasien } from "@/interfaces/pasien";
 import HelloComponent from "./components/HelloComponent";
 import { TablePembayaranPasien } from "./components/TablePembayaranPasien";
+import { TablePemeriksaanPasien } from "./components/TablePemeriksaanPasien";
 
 export default function PasienDashboardView() {
 
@@ -34,13 +35,26 @@ export default function PasienDashboardView() {
 
          {/* main side */}
          <div className="basis-2/3 space-y-4">
-            <HelloComponent name={pasien?.nama ?? "Guest"} logo={Logo1} />
-            <TablePendaftaranPasien pendaftaran={pasien?.pendaftaran ?? []} isLoading={loading} />
+            <HelloComponent
+               name={pasien?.nama ?? "Guest"}
+               logo={Logo1}
+            />
+            <TablePendaftaranPasien
+               pendaftaran={pasien?.pendaftaran ?? []}
+               isLoading={loading}
+            />
+            <TablePemeriksaanPasien
+               pemeriksaan={pasien?.pemeriksaan ?? []}
+               rekamMedis={pasien?.rekamMedis}
+               isLoading={loading} />
          </div>
 
          {/* right side */}
          <div className="basis-1/3 w-full">
-            <TablePembayaranPasien pembayaran={pasien?.pembayaran ?? []} isLoading={loading} />
+            <TablePembayaranPasien
+               pembayaran={pasien?.pembayaran ?? []}
+               isLoading={loading}
+            />
          </div>
       </div>
    )

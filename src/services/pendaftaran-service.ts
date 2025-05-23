@@ -18,10 +18,7 @@ export const getAllPendaftaran = async () => {
    }
 };
 
-export const createPendaftaran = async (data: {
-   pasienId: number;
-   keluhan: string;
-}) => {
+export const createPendaftaran = async (data: { keluhan: string }) => {
    try {
       const res = await fetch("/api/pendaftaran", {
          method: "POST",

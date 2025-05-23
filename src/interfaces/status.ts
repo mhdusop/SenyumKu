@@ -1,6 +1,1 @@
-export enum Status {
-   MENUNGGU = "Menunggu",
-   DIPERIKSA = "Diperiksa",
-   SELESAI = "Selesai",
-   DIBATALKAN = "Dibatalkan",
-}
+export type StatusType = "MENUNGGU" | "DIPERIKSA" | "SELESAI" | "DIBATALKAN";

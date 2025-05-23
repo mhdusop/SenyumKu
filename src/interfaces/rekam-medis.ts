@@ -1,12 +1,15 @@
+import { Resep } from "@prisma/client";
 import { Dokter } from "./dokter";
 import { Pasien } from "./pasien";
 
 export interface RekamMedis {
-  id: number;
-  pasienId: number;
-  dokterId: number;
-  isi: string;
-  tanggal: string;
-  pasien: Pasien;
-  dokter: Dokter;
+   id: number;
+   pasienId: number;
+   dokterId: number;
+   pemeriksaanId: number;
+   isi: string;
+   tanggal: string;
+   pasien: Pasien;
+   dokter: Dokter;
+   resep: Resep[];
 }

@@ -97,25 +97,29 @@ model Pendaftaran {
 }
 
 model Pemeriksaan {
-  id              Int      @id @default(autoincrement())
+  id              Int         @id @default(autoincrement())
   tanggal         DateTime
   pasienId        Int
   dokterId        Int
   keluhan         String
   diagnosa        String
   catatanTambahan String?
-  pasien          Pasien   @relation(fields: [pasienId], references: [id])
-  dokter          Dokter   @relation(fields: [dokterId], references: [id])
+  pasien          Pasien      @relation(fields: [pasienId], references: [id])
+  dokter          Dokter      @relation(fields: [dokterId], references: [id])
+  rekamMedis      RekamMedis? @relation("RekamMedisPemeriksaan")
 }
 
 model RekamMedis {
-  id       Int      @id @default(autoincrement())
-  pasienId Int
-  dokterId Int
-  isi      String
-  tanggal  DateTime
-  pasien   Pasien   @relation(fields: [pasienId], references: [id])
-  dokter   Dokter   @relation(fields: [dokterId], references: [id])
+  id            Int         @id @default(autoincrement())
+  pasienId      Int
+  dokterId      Int
+  pemeriksaanId Int         @unique
+  isi           String
+  tanggal       DateTime
+  pasien        Pasien      @relation(fields: [pasienId], references: [id])
+  dokter        Dokter      @relation(fields: [dokterId], references: [id])
+  resep         Resep[]     @relation("RekamMedisToResep")
+  pemeriksaan   Pemeriksaan @relation("RekamMedisPemeriksaan", fields: [pemeriksaanId], references: [id])
 }
 
 model Pembayaran {
@@ -128,13 +132,15 @@ model Pembayaran {
 }
 
 model Resep {
-  id       Int    @id @default(autoincrement())
-  dokterId Int
-  obatId   Int
-  jumlah   Int
-  aturan   String
-  dokter   Dokter @relation(fields: [dokterId], references: [id])
-  obat     Obat   @relation(fields: [obatId], references: [id])
+  id           Int         @id @default(autoincrement())
+  dokterId     Int
+  obatId       Int
+  jumlah       Int
+  aturan       String
+  rekamMedisId Int?
+  dokter       Dokter      @relation(fields: [dokterId], references: [id])
+  obat         Obat        @relation(fields: [obatId], references: [id])
+  rekamMedis   RekamMedis? @relation("RekamMedisToResep", fields: [rekamMedisId], references: [id])
 }
 
 model Laporan {
