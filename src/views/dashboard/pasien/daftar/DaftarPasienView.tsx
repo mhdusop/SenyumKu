@@ -60,11 +60,13 @@ export default function DaftarPasienView() {
          <button
             type="submit"
             disabled={loading}
-            className={`w-full py-2 px-4 rounded bg-blue-500 text-white font-semibold hover:bg-blue-600 cursor-pointer disabled:opacity-50`}
+            className={`w-full py-2 px-4 rounded bg-blue-500 text-white text-center text-sm font-semibold hover:bg-blue-600 cursor-pointer disabled:opacity-50 flex items-center justify-center`}
          >
             {loading ? (
-               <LoaderCircle className="animate-spin" />
-            ) : "Buat Pendaftaran"}
+               <LoaderCircle className="animate-spin h-5 w-5" />
+            ) : (
+               "Buat Pendaftaran"
+            )}
          </button>
       </form>
    )

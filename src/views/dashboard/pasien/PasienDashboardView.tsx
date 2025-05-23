@@ -31,10 +31,10 @@ export default function PasienDashboardView() {
    }, []);
 
    return (
-      <div className="flex flex-col lg:flex-row items-start gap-4">
+      <div className="flex flex-col lg:flex-row lg:items-start gap-4 w-full">
 
          {/* main side */}
-         <div className="basis-2/3 space-y-4">
+         <div className="basis-2/3 space-y-4 w-full">
             <HelloComponent
                name={pasien?.nama ?? "Guest"}
                logo={Logo1}
@@ -50,7 +50,7 @@ export default function PasienDashboardView() {
          </div>
 
          {/* right side */}
-         <div className="basis-1/3 w-full">
+         <div className="lg:basis-1/3 w-full">
             <TablePembayaranPasien
                pembayaran={pasien?.pembayaran ?? []}
                isLoading={loading}
