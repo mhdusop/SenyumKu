@@ -48,7 +48,7 @@ export default function DokterView() {
    }
 
    return (
-      <>
+      <div className="bg-white rounded-lg shadow p-4">
          {showAlert && (
             <div className="flex items-center p-4 mb-4 text-blue-500 rounded-lg bg-blue-50" role="alert">
                <BadgeInfo size={18} />
@@ -146,6 +146,6 @@ export default function DokterView() {
                )}
             </TableBody>
          </Table>
-      </>
+      </div>
    );
 }
