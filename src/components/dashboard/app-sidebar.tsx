@@ -18,7 +18,8 @@ import {
   FilePlus,
   Tablets,
   LayoutDashboard,
-  ClipboardPen
+  ClipboardPen,
+  BookUser
 } from "lucide-react"
 
 import { NavMain } from "@/components/dashboard/nav-main"
@@ -52,6 +53,7 @@ const fullNavMain = [
     items: [
       { title: "Data Pendaftaran", url: "/dashboard/administrasi/master/pendaftaran", icon: ContactRound },
       { title: "Data Pemeriksaan", url: "/dashboard/administrasi/master/pemeriksaan", icon: ClipboardCheck },
+      { title: "Data User", url: "/dashboard/administrasi/master/user", icon: BookUser },
       { title: "Data Pasien", url: "/dashboard/administrasi/master/pasien", icon: UsersRound },
       { title: "Data Dokter", url: "/dashboard/administrasi/master/dokter", icon: ShieldUser },
       { title: "Data Pembayaran", url: "/dashboard/administrasi/master/pembayaran", icon: Wallet },
@@ -131,6 +133,7 @@ const getNavMainByRole = (role?: string) => {
             [
               "pendaftaran",
               "pemeriksaan",
+              "user",
               "pasien",
               "dokter",
               "pembayaran",
