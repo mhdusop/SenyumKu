@@ -24,6 +24,14 @@ export async function GET() {
 export async function POST(request: Request) {
    const body = await request.json();
    const { username, password, role, profile } = body;
+
+   if (!profile || !profile.nama) {
+      return NextResponse.json(
+         { error: "Profile dengan nama wajib diisi" },
+         { status: 400 }
+      );
+   }
+
    const hashedPassword = await bcrypt.hash(password, 10);
 
    try {
@@ -36,22 +44,31 @@ export async function POST(request: Request) {
                dokter: {
                   create: {
                      nama: profile.nama,
-                     noTelp: profile.noTelp,
-                     spesialisasi: profile.spesialisasi,
+                     noTelp: profile.noTelp || "",
+                     spesialisasi: profile.spesialisasi || null,
                   },
                },
             }),
             ...(role === "ADMINISTRASI" && {
-               staffAdministrasi: { create: { nama: profile.nama } },
+               staffAdministrasi: {
+                  create: {
+                     nama: profile.nama,
+                  },
+               },
             }),
             ...(role === "PENGELOLA_OBAT" && {
-               staffPengelolaObat: { create: { nama: profile.nama } },
+               staffPengelolaObat: {
+                  create: {
+                     nama: profile.nama,
+                  },
+               },
             }),
          },
       });
 
       return NextResponse.json(user);
    } catch (error) {
+      console.error(error);
       return NextResponse.json(
          { error: "Gagal membuat user", detail: error },
          { status: 500 }

@@ -14,8 +14,7 @@ import Loader from '@/components/common/Loader'
 import { getAllUsers } from '@/services/user-service'
 import { User } from '@/interfaces/user'
 import { RoleBadge } from '@/components/common/RoleBadge'
-import { Button } from '@/components/ui/button'
-import { UserRoundPlus } from 'lucide-react'
+import CreateUserDialog from './components/UserDialog'
 
 export default function UserView() {
    const [dataRm, setDataRm] = useState<User[]>([])
@@ -47,10 +46,15 @@ export default function UserView() {
    return (
       <div className='space-y-2'>
          <div className='flex justify-end bg-white rounded-lg shadow p-2'>
-            <Button className='flex items-center text-sm'>
-               <UserRoundPlus />
-               Buat User
-            </Button>
+            <CreateUserDialog
+               onSuccess={() => {
+                  setLoading(true)
+                  getAllUsers()
+                     .then((users) => setDataRm(users))
+                     .catch((err) => console.error(err))
+                     .finally(() => setLoading(false))
+               }}
+            />
          </div>
          <div className="bg-white rounded-lg shadow p-4">
             <Table>
@@ -61,7 +65,6 @@ export default function UserView() {
                      <TableHead>Username</TableHead>
                      <TableHead>Role</TableHead>
                      <TableHead>No Telp</TableHead>
-                     <TableHead>Aksi</TableHead>
                   </TableRow>
                </TableHeader>
                <TableBody>
@@ -81,9 +84,6 @@ export default function UserView() {
                               <RoleBadge role={user.role} />
                            </TableCell>
                            <TableCell>{getNoTelp(user)}</TableCell>
-                           <TableCell>
-                              <button className="text-blue-600 hover:underline"></button>
-                           </TableCell>
                         </TableRow>
                      ))
                   )}

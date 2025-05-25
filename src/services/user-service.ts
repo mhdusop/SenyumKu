@@ -27,7 +27,16 @@ export const createUser = async (data: CreateUserInput) => {
    const res = await fetch("/api/user", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+         username: data.username,
+         password: data.password,
+         role: data.role,
+         profile: {
+            nama: data.nama,
+            noTelp: data.noTelp,
+            spesialisasi: data.spesialisasi,
+         },
+      }),
       cache: "no-store",
    });
 
