@@ -38,35 +38,35 @@ export default function RekamMedisView() {
    }
 
    return (
-      <Table>
-         <TableHeader>
-            <TableRow>
-               <TableHead>No</TableHead>
-               <TableHead>Nama Dokter</TableHead>
-               <TableHead>Nama Pasien</TableHead>
-               <TableHead>Tanggal</TableHead>
-               <TableHead>Catatan</TableHead>
-               <TableHead className="text-center">Aksi</TableHead>
-            </TableRow>
-         </TableHeader>
-         <TableBody>
-            {dataRm.map((data, index) => (
-               (dataRm.length === 0 ? (
-                  <TableRow key={data.id}>
-                     <TableCell colSpan={7} className='text-center'>Tidak ada data</TableCell>
-                  </TableRow>
-               ) : (
-                  <TableRow key={data.id}>
-                     <TableCell>{index + 1}</TableCell>
-                     <TableCell>{data.dokter.nama}</TableCell>
-                     <TableCell>{data.pasien.nama}</TableCell>
-                     <TableCell>{dateFormat(data.tanggal)}</TableCell>
-                     <TableCell>{data.isi}</TableCell>
-                     <TableCell className='text-center'>-</TableCell>
-                  </TableRow>
-               ))
-            ))}
-         </TableBody>
-      </Table>
+      <div className="bg-white rounded-lg shadow p-4">
+         <Table>
+            <TableHeader>
+               <TableRow>
+                  <TableHead>No</TableHead>
+                  <TableHead>Nama Dokter</TableHead>
+                  <TableHead>Nama Pasien</TableHead>
+                  <TableHead>Tanggal</TableHead>
+                  <TableHead>Catatan</TableHead>
+               </TableRow>
+            </TableHeader>
+            <TableBody>
+               {dataRm.map((data, index) => (
+                  (dataRm.length === 0 ? (
+                     <TableRow key={data.id}>
+                        <TableCell colSpan={7} className='text-center'>Tidak ada data</TableCell>
+                     </TableRow>
+                  ) : (
+                     <TableRow key={data.id}>
+                        <TableCell>{index + 1}</TableCell>
+                        <TableCell>{data.dokter.nama}</TableCell>
+                        <TableCell>{data.pasien.nama}</TableCell>
+                        <TableCell>{dateFormat(data.tanggal)}</TableCell>
+                        <TableCell>{data.isi}</TableCell>
+                     </TableRow>
+                  ))
+               ))}
+            </TableBody>
+         </Table>
+      </div>
    );
 }

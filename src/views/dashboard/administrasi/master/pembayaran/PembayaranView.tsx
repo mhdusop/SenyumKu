@@ -38,35 +38,35 @@ export default function PembayaranView() {
    }
 
    return (
-      <Table>
-         <TableHeader>
-            <TableRow>
-               <TableHead>No</TableHead>
-               <TableHead>Nama Pasien</TableHead>
-               <TableHead>Jumlah Bayar</TableHead>
-               <TableHead>Tanggal Bayar</TableHead>
-               <TableHead>Metode Pembayaran</TableHead>
-               <TableHead className="text-center">Aksi</TableHead>
-            </TableRow>
-         </TableHeader>
-         <TableBody>
-            {dataPembayaran.map((data, index) => (
-               (dataPembayaran.length === 0 ? (
-                  <TableRow key={data.id}>
-                     <TableCell colSpan={7} className='text-center'>Tidak ada data</TableCell>
-                  </TableRow>
-               ) : (
-                  <TableRow key={data.id}>
-                     <TableCell>{index + 1}</TableCell>
-                     <TableCell>{data.pasien.nama}</TableCell>
-                     <TableCell>{data.jumlah}</TableCell>
-                     <TableCell>{dateFormat(data.tanggal)}</TableCell>
-                     <TableCell>{data.metode}</TableCell>
-                     <TableCell className='text-center'>-</TableCell>
-                  </TableRow>
-               ))
-            ))}
-         </TableBody>
-      </Table>
+      <div className="bg-white rounded-lg shadow p-4">
+         <Table>
+            <TableHeader>
+               <TableRow>
+                  <TableHead>No</TableHead>
+                  <TableHead>Nama Pasien</TableHead>
+                  <TableHead>Jumlah Bayar</TableHead>
+                  <TableHead>Tanggal Bayar</TableHead>
+                  <TableHead>Metode Pembayaran</TableHead>
+               </TableRow>
+            </TableHeader>
+            <TableBody>
+               {dataPembayaran.map((data, index) => (
+                  (dataPembayaran.length === 0 ? (
+                     <TableRow key={data.id}>
+                        <TableCell colSpan={7} className='text-center'>Tidak ada data</TableCell>
+                     </TableRow>
+                  ) : (
+                     <TableRow key={data.id}>
+                        <TableCell>{index + 1}</TableCell>
+                        <TableCell>{data.pasien.nama}</TableCell>
+                        <TableCell>{data.jumlah}</TableCell>
+                        <TableCell>{dateFormat(data.tanggal)}</TableCell>
+                        <TableCell>{data.metode}</TableCell>
+                     </TableRow>
+                  ))
+               ))}
+            </TableBody>
+         </Table>
+      </div>
    );
 }

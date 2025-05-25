@@ -38,37 +38,37 @@ export default function PemeriksaanView() {
    }
 
    return (
-      <Table>
-         <TableHeader>
-            <TableRow>
-               <TableHead>No</TableHead>
-               <TableHead>Nama Pasien</TableHead>
-               <TableHead>Nama Dokter</TableHead>
-               <TableHead>Tanggal Pemeriksaan</TableHead>
-               <TableHead>Diagnosa</TableHead>
-               <TableHead>Catatan Tambahan</TableHead>
-               <TableHead className="text-center">Aksi</TableHead>
-            </TableRow>
-         </TableHeader>
-         <TableBody>
-            {dataPemeriksaan.map((data, index) => (
-               (dataPemeriksaan.length === 0 ? (
-                  <TableRow key={data.id}>
-                     <TableCell colSpan={7} className='text-center'>Tidak ada data</TableCell>
-                  </TableRow>
-               ) : (
-                  <TableRow key={data.id}>
-                     <TableCell>{index + 1}</TableCell>
-                     <TableCell>{data.pasien.nama}</TableCell>
-                     <TableCell>{data.dokter.nama}</TableCell>
-                     <TableCell>{dateFormat(data.tanggal)}</TableCell>
-                     <TableCell>{data.diagnosa}</TableCell>
-                     <TableCell>{data.catatanTambahan}</TableCell>
-                     <TableCell className='text-center'>-</TableCell>
-                  </TableRow>
-               ))
-            ))}
-         </TableBody>
-      </Table>
+      <div className="bg-white rounded-lg shadow p-4">
+         <Table>
+            <TableHeader>
+               <TableRow>
+                  <TableHead>No</TableHead>
+                  <TableHead>Nama Pasien</TableHead>
+                  <TableHead>Nama Dokter</TableHead>
+                  <TableHead>Tanggal Pemeriksaan</TableHead>
+                  <TableHead>Diagnosa</TableHead>
+                  <TableHead>Catatan Tambahan</TableHead>
+               </TableRow>
+            </TableHeader>
+            <TableBody>
+               {dataPemeriksaan.map((data, index) => (
+                  (dataPemeriksaan.length === 0 ? (
+                     <TableRow key={data.id}>
+                        <TableCell colSpan={7} className='text-center'>Tidak ada data</TableCell>
+                     </TableRow>
+                  ) : (
+                     <TableRow key={data.id}>
+                        <TableCell>{index + 1}</TableCell>
+                        <TableCell>{data.pasien.nama}</TableCell>
+                        <TableCell>{data.dokter.nama}</TableCell>
+                        <TableCell>{dateFormat(data.tanggal)}</TableCell>
+                        <TableCell>{data.diagnosa}</TableCell>
+                        <TableCell>{data.catatanTambahan}</TableCell>
+                     </TableRow>
+                  ))
+               ))}
+            </TableBody>
+         </Table>
+      </div>
    );
 }
