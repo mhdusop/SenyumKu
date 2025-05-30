@@ -15,7 +15,8 @@ import { StatusType } from '@/interfaces/status'
 import { dateFormat } from '@/utils/date-format'
 import Loader from '@/components/common/Loader'
 import { StatusBadge } from '@/components/common/StatusBadge'
-import { Pencil } from 'lucide-react'
+import { Download, Pencil } from 'lucide-react'
+import { exportToExcel, formatTableDataForExport } from '@/utils/excel'
 
 const STATUS_OPTIONS: StatusType[] = ["MENUNGGU", "DIPERIKSA", "SELESAI", "DIBATALKAN"];
 
@@ -57,79 +58,103 @@ export default function PendaftaranView() {
       }
    }
 
+   const handleExportExcel = () => {
+      const exportData = formatTableDataForExport(pendaftaranList, (item, index) => ({
+         'No': index + 1,
+         'Nama Pasien': item.pasien.nama,
+         'Tanggal Daftar': item.tanggalDaftar,
+         'Keluhan': item.keluhan,
+         'Status': item.status,
+      }));
+
+      exportToExcel(exportData, 'Data_Pendaftaran', 'Pendaftaran');
+   }
+
    if (loading) {
       return <Loader />
    }
 
    return (
-      <div className='bg-white rounded-lg shadow p-4'>
-         <Table>
-            <TableHeader>
-               <TableRow>
-                  <TableHead className="w-[100px]">No</TableHead>
-                  <TableHead>Nama Pasien</TableHead>
-                  <TableHead>Tanggal Daftar</TableHead>
-                  <TableHead>Keluhan</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>No Antrian</TableHead>
-                  <TableHead className="text-center">Aksi</TableHead>
-               </TableRow>
-            </TableHeader>
-            <TableBody>
-               {pendaftaranList.length === 0 ? (
+      <div className='space-y-2'>
+         <div className='flex justify-end bg-white rounded-lg shadow p-2 gap-2'>
+            <Button
+               onClick={handleExportExcel}
+               className="bg-green-600 hover:bg-green-700 text-white flex items-center gap-1"
+               disabled={pendaftaranList.length === 0}
+            >
+               <Download size={16} />
+               Export Excel
+            </Button>
+         </div>
+         <div className='bg-white rounded-lg shadow p-4'>
+            <Table>
+               <TableHeader>
                   <TableRow>
-                     <TableCell colSpan={7} className='text-center'>Tidak ada data</TableCell>
+                     <TableHead className="w-[100px]">No</TableHead>
+                     <TableHead>Nama Pasien</TableHead>
+                     <TableHead>Tanggal Daftar</TableHead>
+                     <TableHead>Keluhan</TableHead>
+                     <TableHead>Status</TableHead>
+                     <TableHead>No Antrian</TableHead>
+                     <TableHead className="text-center">Aksi</TableHead>
                   </TableRow>
-               ) : (
-                  pendaftaranList.map((item, index) => (
-                     <TableRow key={item.id}>
-                        <TableCell>{index + 1}</TableCell>
-                        <TableCell>{item.pasien.nama}</TableCell>
-                        <TableCell>{dateFormat(item.tanggalDaftar)}</TableCell>
-                        <TableCell>{item.keluhan}</TableCell>
-                        <TableCell>
-                           <StatusBadge status={item.status as StatusType} />
-                        </TableCell>
-                        <TableCell>{item.antrian?.nomorUrut ?? '-'}</TableCell>
-                        <TableCell className="text-center">
-                           <Popover open={editingId === item.id} onOpenChange={(open) => {
-                              if (!open) setEditingId(null)
-                           }}>
-                              <PopoverTrigger asChild>
-                                 <button
-                                    className='cursor-pointer'
-                                    onClick={() => handleEditClick(item.id, item.status as StatusType)}
-                                 >
-                                    <Pencil size={16} className='text-yellow-400' />
-                                 </button>
-                              </PopoverTrigger>
-                              <PopoverContent className='w-56 relative right-4'>
-                                 <div className="flex flex-col gap-3 w-full">
-                                    <Select
-                                       value={selectedStatus}
-                                       onValueChange={(val) => setSelectedStatus(val as StatusType)}
-                                    >
-                                       <SelectTrigger className='w-full'>
-                                          <SelectValue placeholder="Pilih status" />
-                                       </SelectTrigger>
-                                       <SelectContent>
-                                          {STATUS_OPTIONS.map(status => (
-                                             <SelectItem key={status} value={status}>
-                                                {status}
-                                             </SelectItem>
-                                          ))}
-                                       </SelectContent>
-                                    </Select>
-                                    <Button onClick={handleSave}>Simpan</Button>
-                                 </div>
-                              </PopoverContent>
-                           </Popover>
-                        </TableCell>
+               </TableHeader>
+               <TableBody>
+                  {pendaftaranList.length === 0 ? (
+                     <TableRow>
+                        <TableCell colSpan={7} className='text-center'>Tidak ada data</TableCell>
                      </TableRow>
-                  ))
-               )}
-            </TableBody>
-         </Table>
+                  ) : (
+                     pendaftaranList.map((item, index) => (
+                        <TableRow key={item.id}>
+                           <TableCell>{index + 1}</TableCell>
+                           <TableCell>{item.pasien.nama}</TableCell>
+                           <TableCell>{dateFormat(item.tanggalDaftar)}</TableCell>
+                           <TableCell>{item.keluhan}</TableCell>
+                           <TableCell>
+                              <StatusBadge status={item.status as StatusType} />
+                           </TableCell>
+                           <TableCell>{item.antrian?.nomorUrut ?? '-'}</TableCell>
+                           <TableCell className="text-center">
+                              <Popover open={editingId === item.id} onOpenChange={(open) => {
+                                 if (!open) setEditingId(null)
+                              }}>
+                                 <PopoverTrigger asChild>
+                                    <button
+                                       className='cursor-pointer'
+                                       onClick={() => handleEditClick(item.id, item.status as StatusType)}
+                                    >
+                                       <Pencil size={16} className='text-yellow-400' />
+                                    </button>
+                                 </PopoverTrigger>
+                                 <PopoverContent className='w-56 relative right-4'>
+                                    <div className="flex flex-col gap-3 w-full">
+                                       <Select
+                                          value={selectedStatus}
+                                          onValueChange={(val) => setSelectedStatus(val as StatusType)}
+                                       >
+                                          <SelectTrigger className='w-full'>
+                                             <SelectValue placeholder="Pilih status" />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                             {STATUS_OPTIONS.map(status => (
+                                                <SelectItem key={status} value={status}>
+                                                   {status}
+                                                </SelectItem>
+                                             ))}
+                                          </SelectContent>
+                                       </Select>
+                                       <Button onClick={handleSave}>Simpan</Button>
+                                    </div>
+                                 </PopoverContent>
+                              </Popover>
+                           </TableCell>
+                        </TableRow>
+                     ))
+                  )}
+               </TableBody>
+            </Table>
+         </div>
       </div>
    )
 }
