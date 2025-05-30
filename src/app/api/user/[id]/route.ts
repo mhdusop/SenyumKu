@@ -52,8 +52,36 @@ export async function DELETE(
    const id = parseInt(params.id);
 
    try {
+      const user = await prisma.user.findUnique({
+         where: { id },
+         select: { role: true },
+      });
+
+      if (!user) {
+         return NextResponse.json(
+            { error: "User tidak ditemukan" },
+            { status: 404 }
+         );
+      }
+
+      if (user.role === "ADMINISTRASI") {
+         return NextResponse.json(
+            { error: "User administrasi tidak dapat dihapus" },
+            { status: 403 }
+         );
+      }
+
+      if (user.role === "PASIEN") {
+         await prisma.pasien.delete({ where: { userId: id } });
+      } else if (user.role === "DOKTER") {
+         await prisma.dokter.delete({ where: { userId: id } });
+      } else if (user.role === "PENGELOLA_OBAT") {
+         await prisma.stafPengelolaObat.delete({ where: { userId: id } });
+      }
+
       await prisma.user.delete({ where: { id } });
-      return NextResponse.json({ message: "User deleted" });
+
+      return NextResponse.json({ message: "User berhasil dihapus" });
    } catch (error) {
       return NextResponse.json(
          { error: "Gagal menghapus user", detail: error },
