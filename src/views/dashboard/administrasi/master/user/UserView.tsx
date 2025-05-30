@@ -9,15 +9,16 @@ import {
    TableHeader,
    TableRow,
 } from '@/components/ui/table'
-
 import Loader from '@/components/common/Loader'
 import { getAllUsers, deleteUser } from '@/services/user-service'
 import { User } from '@/interfaces/user'
 import { RoleBadge } from '@/components/common/RoleBadge'
 import CreateUserDialog from './components/UserDialog'
-import { Trash } from 'lucide-react'
+import { Trash, Download } from 'lucide-react'
 import { ConfirmDialog } from './components/ConfirmDialog'
 import { showSuccess, showError, showLoading, dismissToast } from '@/utils/toast'
+import { Button } from '@/components/ui/button'
+import { exportToExcel, formatTableDataForExport } from '@/utils/excel'
 
 export default function UserView() {
    const [dataRm, setDataRm] = useState<User[]>([])
@@ -71,6 +72,18 @@ export default function UserView() {
       setConfirmOpen(true)
    }
 
+   const handleExportExcel = () => {
+      const exportData = formatTableDataForExport(dataRm, (user, index) => ({
+         'No': index + 1,
+         'Nama': getNama(user),
+         'Username': user.username,
+         'Role': user.role,
+         'No Telp': getNoTelp(user),
+      }));
+
+      exportToExcel(exportData, 'Data_User', 'Users');
+   }
+
    if (loading) return <Loader />
 
    const getNama = (user: User) =>
@@ -84,7 +97,17 @@ export default function UserView() {
 
    return (
       <div className='space-y-2'>
-         <div className='flex justify-end bg-white rounded-lg shadow p-2'>
+         <div className='flex justify-end bg-white rounded-lg shadow p-2 gap-2'>
+            {/* Export to Excel Button */}
+            <Button
+               onClick={handleExportExcel}
+               className="bg-green-600 hover:bg-green-700 text-white flex items-center gap-1"
+               disabled={dataRm.length === 0}
+            >
+               <Download size={16} />
+               Export Excel
+            </Button>
+
             <CreateUserDialog
                onSuccess={fetchUsers}
             />
@@ -124,7 +147,7 @@ export default function UserView() {
                                  onClick={() => openDeleteConfirm(user)}
                               >
                                  <Trash
-                                    className={`${user.role === 'ADMINISTRASI' ? 'text-gray-200' : 'text-red-400'}`}
+                                    className={`${user.role === 'ADMINISTRASI' ? 'text-gray-300' : 'text-red-400'}`}
                                     size={17}
                                  />
                               </button>
