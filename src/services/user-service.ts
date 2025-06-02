@@ -11,7 +11,7 @@ export interface CreateUserInput {
 }
 
 export const getAllUsers = async () => {
-   const res = await fetch("/api/user", {
+   const res = await fetch("/api/admin/user", {
       cache: "no-store",
    });
 
@@ -24,7 +24,7 @@ export const getAllUsers = async () => {
 };
 
 export const createUser = async (data: CreateUserInput) => {
-   const res = await fetch("/api/user", {
+   const res = await fetch("/api/admin/user", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -49,7 +49,7 @@ export const createUser = async (data: CreateUserInput) => {
 };
 
 export const getUserById = async (id: number) => {
-   const res = await fetch(`/api/user/${id}`, {
+   const res = await fetch(`/api/admin/user/${id}`, {
       cache: "no-store",
    });
 
@@ -65,7 +65,7 @@ export const updateUser = async (
    id: number,
    data: Partial<CreateUserInput>
 ) => {
-   const res = await fetch(`/api/user/${id}`, {
+   const res = await fetch(`/api/admin/user/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -81,7 +81,7 @@ export const updateUser = async (
 };
 
 export const deleteUser = async (id: number) => {
-   const res = await fetch(`/api/user/${id}`, {
+   const res = await fetch(`/api/admin/user/${id}`, {
       method: "DELETE",
       cache: "no-store",
    });
