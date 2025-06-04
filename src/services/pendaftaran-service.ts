@@ -1,6 +1,6 @@
 export const getAllPendaftaran = async () => {
    try {
-      const res = await fetch("/api/pendaftaran", {
+      const res = await fetch("/api/admin/pendaftaran", {
          cache: "no-store",
       });
 
@@ -20,7 +20,7 @@ export const getAllPendaftaran = async () => {
 
 export const createPendaftaran = async (data: { keluhan: string }) => {
    try {
-      const res = await fetch("/api/pendaftaran", {
+      const res = await fetch("/api/admin/pendaftaran", {
          method: "POST",
          headers: {
             "Content-Type": "application/json",
@@ -51,7 +51,7 @@ export const updatePendaftaranStatus = async (
    status: StatusType
 ) => {
    try {
-      const res = await fetch(`/api/pendaftaran/${id}/status`, {
+      const res = await fetch(`/api/admin/pendaftaran/${id}/status`, {
          method: "PATCH",
          headers: {
             "Content-Type": "application/json",

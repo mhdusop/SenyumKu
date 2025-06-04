@@ -1,6 +1,6 @@
 export const getAllPembayaran = async () => {
    try {
-      const res = await fetch("/api/pembayaran", {
+      const res = await fetch("/api/admin/pembayaran", {
          cache: "no-store",
       });
 

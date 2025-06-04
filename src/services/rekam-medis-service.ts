@@ -1,6 +1,6 @@
 export const getAllRekamMedis = async () => {
    try {
-      const res = await fetch("/api/rekam-medis", {
+      const res = await fetch("/api/admin/rekam-medis", {
          cache: "no-store",
       });
 

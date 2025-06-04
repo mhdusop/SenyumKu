@@ -1,6 +1,6 @@
 export const getAllPemeriksaan = async () => {
    try {
-      const res = await fetch("/api/pemeriksaan", {
+      const res = await fetch("/api/admin/pemeriksaan", {
          cache: "no-store",
       });
 
