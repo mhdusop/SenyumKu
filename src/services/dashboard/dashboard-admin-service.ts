@@ -25,7 +25,7 @@ export interface DashboardData {
 }
 
 export const fetchDashboardData = async (): Promise<DashboardData> => {
-   const response = await fetch("/api/dokter/dashboard", {
+   const response = await fetch("/api/admin/dashboard", {
       method: "GET",
       headers: {
          "Content-Type": "application/json",
