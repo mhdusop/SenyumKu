@@ -94,6 +94,12 @@ const getNavMainByRole = (role?: string) => {
     title: "Form Pendaftaran",
     url: `${dashboardUrl}/daftar`,
     icon: ClipboardPen
+  };
+
+  const daftarPasien = {
+    title: "Daftar Pasien",
+    url: `${dashboardUrl}/daftar-pasien`,
+    icon: UsersRound
   }
 
   switch (role) {
@@ -103,6 +109,7 @@ const getNavMainByRole = (role?: string) => {
     case "DOKTER":
       return [
         dashboardItem,
+        daftarPasien,
         {
           ...fullNavMain[2], // Data Laporan
           items: fullNavMain[2].items?.map(item => ({
