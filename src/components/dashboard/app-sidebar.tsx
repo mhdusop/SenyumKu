@@ -19,7 +19,8 @@ import {
   Tablets,
   LayoutDashboard,
   ClipboardPen,
-  BookUser
+  BookUser,
+  Stethoscope
 } from "lucide-react"
 
 import { NavMain } from "@/components/dashboard/nav-main"
@@ -102,6 +103,12 @@ const getNavMainByRole = (role?: string) => {
     icon: UsersRound
   }
 
+  const pemeriksaanPasien = {
+    title: "Pemeriksaan Pasien",
+    url: `${dashboardUrl}/pemeriksaan-pasien`,
+    icon: Stethoscope
+  }
+
   switch (role) {
     case "PASIEN":
       return [dashboardItem, formPendaftaran];
@@ -110,6 +117,7 @@ const getNavMainByRole = (role?: string) => {
       return [
         dashboardItem,
         daftarPasien,
+        pemeriksaanPasien,
         {
           ...fullNavMain[2], // Data Laporan
           items: fullNavMain[2].items?.map(item => ({
