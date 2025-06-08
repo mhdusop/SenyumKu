@@ -39,7 +39,10 @@ export default function PemeriksaanPasienView() {
                />
             </div>
          )}
-         <PemeriksaanTable pemeriksaanList={pemeriksaanList} />
+         <PemeriksaanTable
+            pemeriksaanList={pemeriksaanList}
+            fetchPemeriksaanPasien={fetchPemeriksaanPasien}
+         />
       </div>
    );
 }
