@@ -1,4 +1,3 @@
-import { Resep } from "@prisma/client";
 import { Dokter } from "./dokter";
 import { Pasien } from "./pasien";
 
@@ -11,5 +10,4 @@ export interface RekamMedis {
    tanggal: string;
    pasien: Pasien;
    dokter: Dokter;
-   resep: Resep[];
 }
