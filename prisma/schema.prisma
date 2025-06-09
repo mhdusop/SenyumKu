@@ -111,16 +111,16 @@ model Pemeriksaan {
 }
 
 model RekamMedis {
-  id            Int         @id @default(autoincrement())
+  id            Int          @id @default(autoincrement())
   pasienId      Int
   dokterId      Int
-  pemeriksaanId Int         @unique
+  pemeriksaanId Int?         @unique
   isi           String
   tanggal       DateTime
-  pasien        Pasien      @relation(fields: [pasienId], references: [id])
-  dokter        Dokter      @relation(fields: [dokterId], references: [id])
-  resep         Resep[]     @relation("RekamMedisToResep")
-  pemeriksaan   Pemeriksaan @relation("RekamMedisPemeriksaan", fields: [pemeriksaanId], references: [id])
+  pasien        Pasien       @relation(fields: [pasienId], references: [id])
+  dokter        Dokter       @relation(fields: [dokterId], references: [id])
+  resep         Resep[]      @relation("RekamMedisToResep")
+  pemeriksaan   Pemeriksaan? @relation("RekamMedisPemeriksaan", fields: [pemeriksaanId], references: [id])
 }
 
 model Pembayaran {

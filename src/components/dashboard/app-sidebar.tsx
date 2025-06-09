@@ -109,6 +109,12 @@ const getNavMainByRole = (role?: string) => {
     icon: Stethoscope
   }
 
+  const rekamMedis = {
+    title: "Rekam Medis",
+    url: `${dashboardUrl}/rekam-medis`,
+    icon: ClipboardPlus
+  }
+
   switch (role) {
     case "PASIEN":
       return [dashboardItem, formPendaftaran];
@@ -118,6 +124,7 @@ const getNavMainByRole = (role?: string) => {
         dashboardItem,
         daftarPasien,
         pemeriksaanPasien,
+        rekamMedis,
         {
           ...fullNavMain[2], // Data Laporan
           items: fullNavMain[2].items?.map(item => ({
