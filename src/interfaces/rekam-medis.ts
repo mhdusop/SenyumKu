@@ -1,5 +1,7 @@
+import { Resep } from "./resep";
 import { Dokter } from "./dokter";
 import { Pasien } from "./pasien";
+import { Pemeriksaan } from "./pemeriksaan";
 
 export interface RekamMedis {
    id: number;
@@ -10,4 +12,6 @@ export interface RekamMedis {
    tanggal: string;
    pasien: Pasien;
    dokter: Dokter;
+   pemeriksaan?: Pemeriksaan;
+   resep?: Resep[];
 }
