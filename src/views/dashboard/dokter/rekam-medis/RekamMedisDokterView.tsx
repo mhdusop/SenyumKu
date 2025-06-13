@@ -12,6 +12,7 @@ import ConfirmDialog from './components/ConfirmDialog';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import RekamMedisDetailDialog from './components/RmDialog';
 
 export default function RekamMedisDokterView() {
    const [rekamMedisList, setRekamMedisList] = useState<RekamMedis[]>([]);
@@ -30,7 +31,8 @@ export default function RekamMedisDokterView() {
       id: number;
       nama: string;
    }
-   const [pasienList, setPasienList] = useState<Pasien[]>([]); // State to hold pasien
+   const [pasienList, setPasienList] = useState<Pasien[]>([]);
+   const [detailItem, setDetailItem] = useState<RekamMedis | null>(null);
 
    useEffect(() => {
       fetchRekamMedisList();
@@ -145,6 +147,14 @@ export default function RekamMedisDokterView() {
       }
    };
 
+   const handleViewDetail = (rekamMedis: RekamMedis) => {
+      setDetailItem(rekamMedis);
+   };
+
+   const handleCloseDetail = () => {
+      setDetailItem(null);
+   };
+
    if (loading) {
       return <Loader />;
    }
@@ -252,7 +262,17 @@ export default function RekamMedisDokterView() {
             </div>
          )}
 
-         <RekamMedisTable rekamMedisList={rekamMedisList} onDelete={handleDeleteClick} />
+         <RekamMedisTable
+            rekamMedisList={rekamMedisList}
+            onDelete={handleDeleteClick}
+            onViewDetail={handleViewDetail}
+         />
+
+         <RekamMedisDetailDialog
+            isOpen={!!detailItem}
+            onClose={handleCloseDetail}
+            rekamMedis={detailItem}
+         />
 
          <ConfirmDialog
             isOpen={!!deleteItem}

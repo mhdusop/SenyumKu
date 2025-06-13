@@ -9,14 +9,15 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { RekamMedis } from '@/interfaces/rekam-medis';
-import { Info, Pencil, Trash } from 'lucide-react';
+import { Info, Trash } from 'lucide-react';
 
 interface RekamMedisTableProps {
    rekamMedisList: RekamMedis[];
    onDelete: (rekamMedis: RekamMedis) => void;
+   onViewDetail: (rekamMedis: RekamMedis) => void;
 }
 
-export default function RekamMedisTable({ rekamMedisList, onDelete }: RekamMedisTableProps) {
+export default function RekamMedisTable({ rekamMedisList, onDelete, onViewDetail }: RekamMedisTableProps) {
    return (
       <div className="bg-white rounded-lg shadow p-4">
          <Table>
@@ -43,28 +44,19 @@ export default function RekamMedisTable({ rekamMedisList, onDelete }: RekamMedis
                            })}
                         </TableCell>
                         <TableCell>{rekamMedis.isi}</TableCell>
-                        <TableCell className='justify-center flex items-center gap-2'>
+                        <TableCell className='justify-center flex items-center'>
                            <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => { }}
-                              className="p-2 bg-blue-100 hover:bg-blue-200 cursor-pointer"
+                              onClick={() => onViewDetail(rekamMedis)}
+                              className="p-2 bg-transparent hover:bg-transparent cursor-pointer"
                            >
                               <Info size={16} className='text-blue-500' />
                            </Button>
                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => { }}
-                              className="p-2 bg-yellow-100 hover:bg-yellow-200 cursor-pointer"
-                           >
-                              <Pencil size={16} className='text-yellow-500' />
-                           </Button>
-                           <Button
-                              variant="ghost"
                               size="sm"
                               onClick={() => onDelete(rekamMedis)}
-                              className="p-2 bg-red-100 hover:bg-red-200 cursor-pointer"
+                              className="p-2 bg-transparent hover:bg-transparent cursor-pointer"
                            >
                               <Trash size={16} className='text-red-500' />
                            </Button>
