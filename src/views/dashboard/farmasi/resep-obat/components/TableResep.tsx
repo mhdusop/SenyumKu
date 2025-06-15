@@ -9,9 +9,7 @@ import {
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Eye, CheckCircle } from 'lucide-react';
-import { format } from 'date-fns';
-import { id } from 'date-fns/locale';
+import { Info } from 'lucide-react';
 
 interface TabelResepProps {
    resepList: any[];
@@ -44,13 +42,12 @@ export default function TabelResep({
          <Table>
             <TableHeader>
                <TableRow>
-                  <TableHead>Tanggal</TableHead>
                   <TableHead>Dokter</TableHead>
                   <TableHead>Pasien</TableHead>
                   <TableHead>Obat</TableHead>
                   <TableHead>Jumlah</TableHead>
                   <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Aksi</TableHead>
+                  <TableHead className="text-center">Aksi</TableHead>
                </TableRow>
             </TableHeader>
             <TableBody>
@@ -63,9 +60,6 @@ export default function TabelResep({
                ) : (
                   resepList.map((resep) => (
                      <TableRow key={resep.id}>
-                        <TableCell>
-                           {resep.createdAt && format(new Date(resep.createdAt), 'dd MMM yyyy', { locale: id })}
-                        </TableCell>
                         <TableCell>{resep.dokter?.nama || '-'}</TableCell>
                         <TableCell>
                            {resep.rekamMedis?.pasien?.nama || '-'}
@@ -75,22 +69,22 @@ export default function TabelResep({
                            {resep.jumlah} {resep.obat?.satuan || ''}
                         </TableCell>
                         <TableCell>{renderStatusBadge(resep.status || 'BARU')}</TableCell>
-                        <TableCell className="text-right">
-                           <div className="flex justify-end gap-2">
+                        <TableCell className="text-center">
+                           <div className="flex justify-center gap-2">
                               <Button
-                                 variant="outline"
+                                 className='bg-transparent hover:bg-transparent shadow-none cursor-pointer'
                                  size="sm"
                                  onClick={() => onViewDetail(resep.id)}
                               >
-                                 <Eye className="h-4 w-4" />
+                                 <Info size={16} className='text-blue-500' />
                               </Button>
                               {(resep.status === 'BARU' || resep.status === 'DIPROSES') && (
                                  <Button
-                                    variant="default"
                                     size="sm"
+                                    className='bg-transparent hover:bg-transparent shadow-none cursor-pointer'
                                     onClick={() => onProcessResep(resep.id)}
                                  >
-                                    <CheckCircle className="h-4 w-4" />
+                                    <Info size={16} className='text-blue-500' />
                                  </Button>
                               )}
                            </div>

@@ -10,6 +10,7 @@ declare module "next-auth" {
          username: string;
          role: string;
          pasienId?: string | null;
+         dokterId: string | null;
       };
    }
    interface User {
@@ -17,6 +18,7 @@ declare module "next-auth" {
       username: string;
       role: string;
       pasienId?: string | null;
+      dokterId: string | null;
    }
 }
 
@@ -43,6 +45,7 @@ export const authOptions: AuthOptions = {
                where: { username: credentials.username },
                include: {
                   pasien: true,
+                  dokter: true,
                },
             });
 
@@ -59,6 +62,7 @@ export const authOptions: AuthOptions = {
                username: user.username,
                role: user.role,
                pasienId: user.pasien?.id?.toString() ?? null,
+               dokterId: user.dokter?.id.toString() ?? null,
             };
          },
       }),
@@ -73,6 +77,7 @@ export const authOptions: AuthOptions = {
             token.username = user.username;
             token.role = user.role;
             token.pasienId = user.pasienId ?? null;
+            token.dokterId = user.dokterId ?? null;
          }
          return token;
       },
@@ -84,6 +89,8 @@ export const authOptions: AuthOptions = {
                role: token.role,
                pasienId:
                   typeof token.pasienId === "string" ? token.pasienId : null,
+               dokterId:
+                  typeof token.dokterId === "string" ? token.dokterId : null,
             };
          }
          return session;
