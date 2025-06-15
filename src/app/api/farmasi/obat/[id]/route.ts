@@ -3,9 +3,11 @@ import { prisma } from "@/lib/prisma";
 
 export async function PUT(
    request: NextRequest,
-   { params }: { params: { id: string } }
+   context: { params: Promise<{ id: string }> }
 ) {
    try {
+      const { id } = await context.params;
+      const parsedId = parseInt(id);
       const body = await request.json();
       const { nama, stok, satuan } = body;
 
@@ -17,7 +19,7 @@ export async function PUT(
       }
 
       const updatedObat = await prisma.obat.update({
-         where: { id: parseInt(params.id, 10) },
+         where: { id: parsedId },
          data: {
             nama,
             stok: parseInt(stok, 10),
@@ -37,11 +39,13 @@ export async function PUT(
 
 export async function DELETE(
    request: NextRequest,
-   { params }: { params: { id: string } }
+   context: { params: Promise<{ id: string }> }
 ) {
    try {
+      const { id } = await context.params;
+      const parsedId = parseInt(id);
       const deletedObat = await prisma.obat.delete({
-         where: { id: parseInt(params.id) },
+         where: { id: parsedId },
       });
 
       return NextResponse.json({ success: true, data: deletedObat });
