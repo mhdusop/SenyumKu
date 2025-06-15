@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import { getResepList, getResepDetail, processResep } from '@/services/farmasi/resep-service';
 import { showSuccess, showError, showLoading, dismissToast } from '@/utils/toast';
 import Loader from '@/components/common/Loader';
-import FilterResep from './components/FilterResep';
 import TabelResep from './components/TableResep';
 import DetailResep from './components/DetailResep';
 import ProsesResepDialog from './components/ResepDialog';
@@ -16,13 +15,12 @@ export default function ResepObatView() {
    const [selectedResep, setSelectedResep] = useState<any | null>(null);
    const [detailOpen, setDetailOpen] = useState(false);
    const [prosesOpen, setProsesOpen] = useState(false);
-   const [filters, setFilters] = useState<{ status?: string; search?: string }>({});
 
    const loadResepList = async () => {
       const loadingToast = showLoading('Memuat data resep...');
       setLoading(true);
       try {
-         const data = await getResepList(filters);
+         const data = await getResepList();
          setResepList(data);
       } catch (error) {
          console.error(error);
@@ -35,7 +33,7 @@ export default function ResepObatView() {
 
    useEffect(() => {
       loadResepList();
-   }, [filters]);
+   }, []);
 
    const handleViewDetail = async (id: number) => {
       try {
@@ -81,8 +79,6 @@ export default function ResepObatView() {
    return (
       <div className="space-y-4">
          <h1 className="text-2xl font-bold">Manajemen Resep Obat</h1>
-
-         <FilterResep onFilterChange={setFilters} />
 
          <TabelResep
             resepList={resepList}

@@ -115,6 +115,12 @@ const getNavMainByRole = (role?: string) => {
     icon: ClipboardPlus
   }
 
+  const resepObat = {
+    title: "Resep Obat",
+    url: `${dashboardUrl}/resep-obat`,
+    icon: PillBottle
+  }
+
   switch (role) {
     case "PASIEN":
       return [dashboardItem, formPendaftaran];
@@ -125,6 +131,7 @@ const getNavMainByRole = (role?: string) => {
         daftarPasien,
         pemeriksaanPasien,
         rekamMedis,
+        resepObat,
         {
           ...fullNavMain[2], // Data Laporan
           items: fullNavMain[2].items?.map(item => ({
