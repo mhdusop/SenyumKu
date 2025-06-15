@@ -41,7 +41,7 @@ export default function ResepObatDokterView() {
       const fetchDaftarObat = async () => {
          try {
             const response = await getDaftarObat();
-            setDaftarObat(response.data);
+            setDaftarObat(response);
          } catch (error) {
             console.error('Error fetching daftar obat:', error);
          }
