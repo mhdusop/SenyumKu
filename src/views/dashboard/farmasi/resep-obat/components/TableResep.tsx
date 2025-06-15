@@ -38,12 +38,11 @@ export default function TabelResep({
    };
 
    return (
-      <div className="border rounded-md bg-white">
+      <div className="border rounded-md bg-white p-4">
          <Table>
             <TableHeader>
                <TableRow>
                   <TableHead>Dokter</TableHead>
-                  <TableHead>Pasien</TableHead>
                   <TableHead>Obat</TableHead>
                   <TableHead>Jumlah</TableHead>
                   <TableHead>Status</TableHead>
@@ -61,9 +60,6 @@ export default function TabelResep({
                   resepList.map((resep) => (
                      <TableRow key={resep.id}>
                         <TableCell>{resep.dokter?.nama || '-'}</TableCell>
-                        <TableCell>
-                           {resep.rekamMedis?.pasien?.nama || '-'}
-                        </TableCell>
                         <TableCell>{resep.obat?.nama || '-'}</TableCell>
                         <TableCell>
                            {resep.jumlah} {resep.obat?.satuan || ''}

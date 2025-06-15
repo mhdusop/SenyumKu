@@ -3,13 +3,14 @@ import { NextResponse } from "next/server";
 
 export async function GET(
    request: Request,
-   { params }: { params: { id: string } }
+   context: { params: Promise<{ id: string }> }
 ) {
    try {
-      const id = parseInt(params.id);
+      const { id } = await context.params;
+      const parsedId = parseInt(id);
 
       const resep = await prisma.resep.findUnique({
-         where: { id },
+         where: { id: parsedId },
          include: {
             dokter: {
                select: {
@@ -68,10 +69,11 @@ export async function GET(
 // Update status resep (misalnya menjadi 'diproses' atau 'selesai')
 export async function PUT(
    request: Request,
-   { params }: { params: { id: string } }
+   context: { params: Promise<{ id: string }> }
 ) {
    try {
-      const id = parseInt(params.id);
+      const { id } = await context.params;
+      const parsedId = parseInt(id);
       const data = await request.json();
 
       // Memproses resep dan mengurangi stok obat jika status 'selesai'
@@ -80,7 +82,7 @@ export async function PUT(
          const result = await prisma.$transaction(async (tx) => {
             // Dapatkan resep dan obat terkait
             const resep = await tx.resep.findUnique({
-               where: { id },
+               where: { id: parsedId },
                include: { obat: true },
             });
 
@@ -100,7 +102,7 @@ export async function PUT(
             });
 
             return await tx.resep.update({
-               where: { id },
+               where: { id: parsedId },
                data: {},
             });
          });
@@ -113,7 +115,7 @@ export async function PUT(
       }
 
       const updatedResep = await prisma.resep.update({
-         where: { id },
+         where: { id: parsedId },
          data: data,
       });
 

@@ -78,7 +78,7 @@ export default function ResepObatView() {
 
    return (
       <div className="space-y-4">
-         <h1 className="text-2xl font-bold">Manajemen Resep Obat</h1>
+         <h1 className="text-2xl font-bold">Resep Obat</h1>
 
          <TabelResep
             resepList={resepList}

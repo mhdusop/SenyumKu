@@ -1,11 +1,12 @@
 import { prisma } from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
-   request: Request,
-   { params }: { params: { id: string } }
+   request: NextRequest,
+   context: { params: Promise<{ id: string }> }
 ) {
-   const id = parseInt(params.id);
+   const { id } = await context.params;
+   const parsedId = parseInt(id);
    const { status } = await request.json();
 
    const allowedStatuses = ["MENUNGGU", "DIPERIKSA", "SELESAI", "DIBATALKAN"];
@@ -18,7 +19,7 @@ export async function PATCH(
 
    try {
       const updated = await prisma.pendaftaran.update({
-         where: { id },
+         where: { id: parsedId },
          data: { status },
       });
 

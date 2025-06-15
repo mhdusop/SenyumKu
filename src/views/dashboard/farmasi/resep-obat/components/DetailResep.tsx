@@ -37,12 +37,6 @@ export default function DetailResep({
                      <p className="text-base">{resep.dokter?.nama || '-'}</p>
                      <p className="text-sm text-muted-foreground">{resep.dokter?.spesialisasi || '-'}</p>
                   </div>
-
-                  <div>
-                     <h4 className="text-sm font-medium text-muted-foreground">Pasien</h4>
-                     <p className="text-base">{resep.rekamMedis?.pasien?.nama || '-'}</p>
-                     <p className="text-sm text-muted-foreground">{resep.rekamMedis?.pasien?.noTelp || '-'}</p>
-                  </div>
                </div>
 
                <div className="space-y-3">

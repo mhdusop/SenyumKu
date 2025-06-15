@@ -1,5 +1,3 @@
-"use client"
-
 import React from "react"
 import {
    Dialog,
@@ -65,7 +63,7 @@ export function DialogDetailPemeriksaan({
                {/* Resep Obat */}
                <div>
                   <p className="text-sm font-semibold mb-2">Resep Obat:</p>
-                  {rekamMedis && rekamMedis.resep.length > 0 ? (
+                  {rekamMedis && rekamMedis.resep && rekamMedis.resep.length > 0 ? ( // Updated check here
                      <div className="space-y-3">
                         {rekamMedis.resep.map((resep, index) => (
                            <div

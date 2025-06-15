@@ -140,7 +140,7 @@ model Resep {
   aturan       String
   rekamMedisId Int?
   dokter       Dokter      @relation(fields: [dokterId], references: [id])
-  obat         Obat        @relation(fields: [obatId], references: [id])
+  obat         Obat        @relation(fields: [obatId], references: [id], onDelete: Cascade)
   rekamMedis   RekamMedis? @relation("RekamMedisToResep", fields: [rekamMedisId], references: [id])
 }
 
